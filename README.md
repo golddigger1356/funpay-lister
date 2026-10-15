@@ -1,6 +1,10 @@
 # FunPay Lister
 
-A local browser app for creating and managing FunPay listings. Written in Python and vanilla JavaScript, with no runtime packages required.
+A local app for creating and managing FunPay listings.
+
+**[Download the Windows app — FunPay-Lister.exe](https://github.com/golddigger1356/funpay-lister/releases/latest/download/FunPay-Lister.exe)**
+
+For **64-bit Windows 10 or 11**. Download the EXE and double-click it. **No Python or installation is needed.** It opens the tool in your browser and runs on your computer. Keep its console window open while using it; press **Ctrl+C** in that window to stop.
 
 **Connecting automatically and permanently deletes paused or zero-stock listings in the selected category.** The app verifies each deletion candidate first and shows progress, results, and a stop button. Active listings with stock are retained. If a listing's eligibility is unclear, it is kept. Read this before entering your account cookie.
 
@@ -14,7 +18,7 @@ A local browser app for creating and managing FunPay listings. Written in Python
 - Fast connection checks: active listings with known positive stock skip editor requests; uncertain quantities still get checked. Deletions are paced three seconds apart.
 - Local draft import/export. Golden Keys remain in memory and are excluded from drafts.
 
-## Run locally
+## Run from source
 
 Requires Python **3.10 or newer**. No `pip install` is needed to run the app.
 
@@ -74,11 +78,15 @@ python scripts/test.py
 
 Tests use synthetic credentials and simulated FunPay responses. They do not create, edit, or delete real account listings. Live behavior depends on FunPay's current HTML and account restrictions.
 
-To build a standalone Windows executable, install PyInstaller in a separate virtual environment and run on Windows:
+To build the standalone Windows app from source, run these commands on Windows from the repository folder. The released app uses PyInstaller **6.22.3**:
 
 ```powershell
-python -m PyInstaller --noconfirm --onefile --name "FunPay Lister" --add-data "static;static" app.py
+python -m venv .venv-build
+.\.venv-build\Scripts\python.exe -m pip install PyInstaller==6.22.3
+.\.venv-build\Scripts\python.exe scripts/build_windows.py
 ```
+
+The result is **`dist/FunPay-Lister.exe`**. It includes Python and the browser interface files, so users only need the EXE. The console stays available to stop the app. Build output is excluded from Git; distribute the EXE through GitHub Releases.
 
 ## Implementation references
 
